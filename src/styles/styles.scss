@@ -1,0 +1,161 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$corporate-color-blue: #1F4492;
+$corporate-color-red: #E1051E;
+$corporate-color-white: #FFFFFF;
+$corporate-color-dark-blue: #061835;
+$corporate-color-dark-grey: #282828;
+$corporate-color-grey: #697486;
+$corporate-color-light-grey: #F9F9FC;
+
+$corporate-color-blue-palette: (
+    50: $corporate-color-blue,
+    100: $corporate-color-blue,
+    200: $corporate-color-blue,
+    300: $corporate-color-blue,
+    400: $corporate-color-blue,
+    500: $corporate-color-blue,
+    600: $corporate-color-blue,
+    700: $corporate-color-blue,
+    800: $corporate-color-blue,
+    900: $corporate-color-blue,
+    A100: $corporate-color-blue,
+    A200: $corporate-color-blue,
+    A400: $corporate-color-blue,
+    A700: $corporate-color-blue,
+    contrast: (50: $corporate-color-white,
+        100: $corporate-color-white,
+        200: $corporate-color-white,
+        300: $corporate-color-white,
+        400: $corporate-color-white,
+        500: $corporate-color-white,
+        600: $corporate-color-white,
+        700: $corporate-color-white,
+        800: $corporate-color-white,
+        900: $corporate-color-white,
+        A100: $corporate-color-white,
+        A200: $corporate-color-white,
+        A400: $corporate-color-white,
+        A700: $corporate-color-white,
+    )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$naval-group-frontend-core-primary: mat.define-palette($corporate-color-blue-palette);
+$naval-group-frontend-core-accent: mat.define-palette($corporate-color-blue-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$naval-group-frontend-core-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$naval-group-frontend-core-theme: mat.define-light-theme((color: (primary: $naval-group-frontend-core-primary,
+                accent: $naval-group-frontend-core-accent,
+                warn: $naval-group-frontend-core-warn,
+            )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($naval-group-frontend-core-theme);
+
+:root {
+    --corporate-color-blue: #1F4492;
+    --corporate-color-medium-blue: #1a397a;
+    --corporate-color-red: #E1051E;
+    --corporate-color-white: #FFFFFF;
+    --corporate-color-dark-blue: #061835;
+    --corporate-color-dark-grey: #282828;
+    --corporate-color-grey: #697486;
+    --corporate-color-light-grey: #F9F9FC;
+}
+
+.modal-backdrop {
+    --bs-backdrop-opacity: 0.8;
+}
+
+html {
+    height: 100%;
+
+    body {
+        margin: 0;
+        font-family: B612-Regular;
+        &.modal-open {
+            overflow: hidden;
+        }
+        select {
+            font-family: B612-Regular;
+        }
+    }
+    
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: NavalGroup-Bold;
+    color: var(--corporate-color-blue);
+}
+
+span,
+p,
+b,
+ul {
+    color: var(--corporate-color-blue);
+}
+
+b {
+    font-family: B612-Bold;
+}
+
+i {
+    font-family: B612-Italic;
+}
+
+@font-face {
+    font-family: NavalGroup-Regular;
+    src: url('../assets/fonts/Naval_Group_Sans_v1.1/TTF/NavalGroupSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: NavalGroup-Light;
+    src: url('../assets/fonts/Naval_Group_Sans_v1.1/TTF/NavalGroupSansLight.ttf');
+}
+
+@font-face {
+    font-family: NavalGroup-Bold;
+    src: url('../assets/fonts/Naval_Group_Sans_v1.1/TTF/NavalGroupSans-Bold.ttf');
+}
+
+@font-face {
+    font-family: B612-Regular;
+    src: url('../assets/fonts/B612/B612-Regular.ttf');
+}
+
+@font-face {
+    font-family: B612-Italic;
+    src: url('../assets/fonts/B612/B612-Italic.ttf');
+}
+
+@font-face {
+    font-family: B612-Bold;
+    src: url('../assets/fonts/B612/B612-Bold.ttf');
+}
+
+@font-face {
+    font-family: B612-BoldItalic;
+    src: url('../assets/fonts/B612/B612-BoldItalic.ttf');
+}

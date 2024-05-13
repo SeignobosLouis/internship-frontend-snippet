@@ -1,0 +1,77 @@
+<div class="container-fluid" id="main">
+  <div class="sticky-top">
+    <app-branding></app-branding>
+  </div>
+  <app-card>
+    <app-team-info [version]="'1.0'"></app-team-info>
+  </app-card>
+  <app-toast #toast></app-toast>
+  <div #chartObserver class="row g-0">
+    <div class="col-4">
+      <div class="row">
+        <div class="col-12">
+          <app-card>
+            <app-settings-panels (toasts)="toast.addToast($event)" (emitVideo)="video.updateVideo($event)"
+              (emitQuarters)="densityChart.updateQuarters($event); mobileDisplay.chartComponent.updateNbQuarters($event)"
+              (emitSectors)="densityChart.chartComponent.updateNbSectors($event); mobileDisplay.chartComponent.updateNbSectors($event)"
+              (emitRadius)="densityChart.chartComponent.updateRadius($event); mobileDisplay.updateRadius($event)"
+              (emitDistributions)="densityChart.updateDistributions($event)"></app-settings-panels>
+          </app-card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <app-card>
+            <app-mobile-detail #mobileDetail (toasts)="toast.addToast($event)">              
+            </app-mobile-detail>
+          </app-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <app-card>
+        <app-mobile-display
+          #mobileDisplay
+          [isWatching]="isWatchingCharts"
+          (selectMobileEvent)="densityChart.selectMobile($event.id); mobileDetail.selectMobile($event); table.selectMobile($event.id);"
+          (updateMobileEvent)="mobileDetail.updateSelectedMobile()" (updateMobileDetail)="mobileDetail.onChangeCdr()">
+          <app-chart-parameters
+            [zoom]="zoomCharts"
+            (zoomChange)="densityChart.updateZoom($event); mobileDisplay.updateZoom($event); zoomCharts = $event"
+            (emitFullScreen)="mobileDisplay.toggleFullScreen()"></app-chart-parameters>
+        </app-mobile-display>
+      </app-card>
+    </div>
+    <div class="col-4">
+      <app-card>
+        <app-density-chart
+          #densityChart
+          [isWatching]="isWatchingCharts"
+          (datasetUpdateBorderEvent)="mobileDisplay.chartComponent.updateBorderDatasets($event)">
+          <app-chart-parameters
+            [zoom]="zoomCharts"
+            (zoomChange)="densityChart.updateZoom($event); mobileDisplay.updateZoom($event); zoomCharts = $event"
+            (emitFullScreen)="densityChart.toggleFullScreen()"></app-chart-parameters>
+        </app-density-chart>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <app-card>
+        <app-table #table (selectMobileEvent)="mobileDisplay.selectMobile($event)">
+        </app-table>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <app-card>
+        <app-video #video (toasts)="toast.addToast($event)"></app-video>
+      </app-card>
+    </div>
+  </div>
+  <div class="sticky-bottom">
+    <app-branding></app-branding>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div
+    *ngFor="let toast of toasts; let i = index"
+    class="toast show"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    [ngClass]="toast.type === 'error' ? 'text-bg-danger' : ''"
+  >
+    <div class="toast-header">
+      <strong class="me-auto">{{ toast.title }}</strong>
+      <small>{{ toast.time }}</small>
+      <button
+        type="button"
+        class="btn-close"
+        (click)="removeToast(i)"
+        aria-label="Fermer"
+      ></button>
+    </div>
+    <div class="toast-body">
+      {{ toast.message }}
+    </div>
+  </div>
+</div>

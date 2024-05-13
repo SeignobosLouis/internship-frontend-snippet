@@ -1,0 +1,120 @@
+<div class="container-fluid">
+
+    <form>
+        <h5 class="text-center">Paramétrage</h5>
+
+        <h6>Répartition :</h6>
+        <div class="row ms-2 mb-4">
+            <div class="col-4" title="Rayon Sitac (en mètre)">
+                <span class="text-truncate d-inline-block w-100">Rayon :</span>
+                <div class="input-group">
+                    <input #rayonInput type="number" class="form-control" [value]="radius" placeholder="10">
+                    <span class="input-group-text bg-white pe-2">m</span>
+                </div>
+            </div>
+            <div class="col-3" title="Nombre de mobiles">
+                <span class="text-truncate d-inline-block w-100">Mobiles :</span>
+                <input #mobilesInput type="number" class="form-control" [value]="mobiles" min="0"
+                    [ngClass]="mobiles ? 'disabled' : 'disabled'">
+            </div>
+            <div class="col-5">
+                <div class="row" title="Période de rafraichissement (en ms)">
+                    <div class="col">
+                        <span class="text-truncate d-inline-block w-100">Rafraichissement :</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="input-group">
+                            <input #refreshInput type="number" class="form-control" [value]="refresh" min="100"
+                                placeholder="100" [disabled]="!refresh">
+                            <span class="input-group-text bg-white pe-2">ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h6>Densité :</h6>
+        <div class="row ms-2 mb-4">
+            <div class="row mb-2">
+                <div class="col-6" title="Nombre de secteurs (12 par défaut)">
+                    <span class="text-truncate d-inline-block w-100">Nombre de secteurs :</span>
+                    <input #sectorsInput type="number" min="1" [value]="sectors" class="form-control">
+                </div>
+                <div class="col-6">
+                    <span class="text-truncate d-inline-block w-100" title="Nombre de quartiers (7 par défaut)">Nombre de quartiers :</span>
+                    <input #quartersInput type="number" min="1" [value]="quarters" class="form-control">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-auto repartition-mobiles">
+                    <span class="text-truncate d-inline-block w-100" title="Nombre de mobiles nécessaire par catégorie de couleurs">Répartition mobiles :</span>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group" title="Intervalles de mobiles associés à la 1ère couleur (min / max compris)">
+                                <span
+                                    class="badge d-flex align-items-center bg-repartition-4 text-black border">A</span>
+                                <span class="input-group-text bg-white pe-2">0 à</span>
+                                <input #distributionInputA type="number" min="0"
+                                    [max]="(distributionInputB.value | parseInt) - 1"
+                                    (change)="updateRepartitionMobiles()"
+                                    class="ps-0 border-0 border-top border-bottom border-end form-control disabled-outline"
+                                    [value]="distributions[0]">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group" title="Intervalles de mobiles associés à la 3ème couleur (min / max compris)">
+                                <span class="badge d-flex align-items-center bg-repartition-2">C</span>
+                                <span class="input-group-text bg-white pe-2">{{ distributionInputB.value ?
+                                    (distributionInputB.value | parseInt) + 1 : distributions[1]+1 }} à</span>
+                                <input #distributionInputC type="number"
+                                    [min]="(distributionInputB.value | parseInt) + 1"
+                                    (change)="updateRepartitionMobiles()"
+                                    class="ps-0 border-0 border-top border-bottom border-end form-control disabled-outline"
+                                    [value]="distributions[2]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <div class="input-group" title="Intervalles de mobiles associés à la 2ème couleur (min / max compris)">
+                                <span class="badge d-flex align-items-center bg-repartition-3">B</span>
+                                <span class="input-group-text bg-white pe-2">{{ (distributionInputA.value | parseInt) +
+                                    1 }} à</span>
+                                <input #distributionInputB type="number"
+                                    [min]="(distributionInputA.value | parseInt) + 1"
+                                    [max]="(distributionInputC.value | parseInt) - 1"
+                                    (change)="updateRepartitionMobiles()"
+                                    class="ps-0 border-0 border-top border-bottom border-end form-control disabled-outline"
+                                    [value]="distributions[1]">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group" title="Intervalles de mobiles restants associés à la dernière couleur">
+                                <span class="badge d-flex align-items-center bg-repartition-1">D</span>
+                                <input type="text" class="form-control disabled-outline" disabled
+                                    [value]="(distributionInputC.value | parseInt) + 1 + ' et plus'">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <h6>Vidéo :</h6>
+        <div class="row ms-2">
+            <div class="col-auto">
+                <span class="text-truncate d-inline-block w-100" title="Nombre de vidéos affichés simultanément">Nombre de vidéos :</span>
+                <input #videoInput type="number" min="0" [value]="video" class="form-control">
+            </div>
+            <div class="col h-auto pt-5 d-flex align-items-end justify-content-end text-end align-bottom">
+                <input type="button" class="btn btn-primary"
+                    (click)="applySettings(mobilesInput.value, refreshInput.value, videoInput.value, rayonInput.value, sectorsInput.value, quartersInput.value, distributionInputA.value, distributionInputB.value, distributionInputC.value)"
+                    value="Mettre à jour &#x2714;">
+            </div>
+        </div>
+    </form>
+
+</div>

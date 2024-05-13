@@ -1,0 +1,206 @@
+<div *ngIf="fullScreen">
+  <div class="modal-backdrop fade show"></div>
+</div>
+
+<div class="container-fluid" [ngClass]="fullScreen ? 'modal modal-xl d-block' : ''">
+  <div [ngClass]="fullScreen ? 'modal-dialog modal-dialog-centered' : ''">
+    <div [ngClass]="fullScreen ? 'modal-content' : ''">
+      <div [ngClass]="fullScreen ? 'modal-header' : ''">
+        <h5 class="text-center" [ngClass]="fullScreen ? 'modal-title fs-5' : ''">Représentation des mobiles</h5>
+        <span *ngIf="fullScreen" tabindex="0" type="button" class="btn-close"
+          (click)="fullScreen = !fullScreen;myChart.toggleFullScreen()"
+          (keyup)="fullScreen = !fullScreen;myChart.toggleFullScreen()"></span>
+      </div>
+
+      <div *ngIf="selectedMobile" [class]="fullScreen ? 'p-2 py-3 border m-2' : 'd-none'">
+        <div class="row">
+          <div class="col-auto">
+            <h5 class="text-dark">Mobile {{selectedMobile.displayId}}</h5>
+          </div>
+          <div class="col-auto">
+            <h6>Information générale</h6>
+            <div class="input-group">
+              <span>Environnement:&nbsp;</span>
+              <select class="py-1 px-2 border fw-bold w-100" name="environment"
+                [(ngModel)]="selectedMobile.environment" (change)="updateSelectMobile()">
+                <option [ngValue]="'AIR'">air</option>
+                <option [ngValue]="'LAND'">land</option>
+                <option [ngValue]="'UNDERGROUND'">underground</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <span>Forme:&nbsp;</span>
+              <select class="py-1 px-2 border fw-bold w-100" name="shape" [(ngModel)]="selectedMobile.shape" (change)="updateSelectMobile()">
+                <option [ngValue]="'CIRCLE'">circle</option>
+                <option [ngValue]="'SQUARE'">square</option>
+                <option [ngValue]="'DIAMOND'">diamond</option>
+                <option [ngValue]="'TRIANGLE'">triangle</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <span>Couleur:&nbsp;</span>
+              <select class="py-1 px-2 border fw-bold w-100" name="shape"
+                  [(ngModel)]="selectedMobile.color" (change)="updateSelectMobile()">
+                  <option [ngValue]="'BLUE'">blue</option>
+                  <option [ngValue]="'VIOLET'">violet</option>
+                  <option [ngValue]="'RED'">red</option>
+                  <option [ngValue]="'ORANGE'">orange</option>
+                  <option [ngValue]="'YELLOW'">yellow</option>
+                  <option [ngValue]="'GREEN'">green</option>
+              </select>
+          </div>
+          </div>
+          <div class="col">
+            <h6>Kinematics</h6>
+            <div class="row">
+              <div class="col">
+                <div>
+                  <span>Position X:&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.fixedTwoX}}</span>
+                </div>
+                <div>
+                  <span>Position Y:&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.fixedTwoY}}</span>
+                </div>
+                <div>
+                  <span>Position Z:&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.kinematics.zM}}</span>
+                </div>
+              </div>
+              <div class="col">
+                <div>
+                  <span>Vitesse (m/s):&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.speedMSfixedTwo}}</span>
+                </div>
+                <div>
+                  <span>Heading (deg):&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.headingDeg}}</span>
+                </div>
+                <div>
+                  <span>Orientation (deg):&nbsp;</span>
+                  <span class="text-dark fw-bold">{{selectedMobile.orientationDeg}}</span>
+                </div>
+              </div>
+              <div class="col">
+                <span>Vitesse de rotation (deg/s):&nbsp;</span>
+                <span class="text-dark fw-bold">{{selectedMobile.spinningSpeedRedS}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="position-relative">
+        <div class="row">
+          <div class="col-12">
+            <div [ngClass]="fullScreen ? 'modal-body overflow-hidden p-0 m-2' : 'row'">
+              <div class="position-absolute w-100 h-100 text-center container-fluid p-0" id="svgContainer">
+                <svg #svgElement [attr.width]="myChart.chart ? myChart.chart.width : 0"
+                  [attr.height]="myChart.chart ? myChart.chart.width : 0" viewBox="-250 -250 500 500"
+                  style="transform: scaleY(-1);">
+                  <ng-container *ngFor="let mobile of mobiles;">
+                    <g *ngIf="mobile.isDisplayed && !mobile.isOutOfRange" [ngSwitch]="mobile.shape" (click)="onMobileClick(mobile)">
+                      <line [attr.x1]="mobile.diagramX" [attr.y1]="mobile.diagramY"
+                        [attr.x2]="mobile.orientationSecondXCoordinate" [attr.y2]="mobile.orientationSecondYCoordinate"
+                        style="stroke: black;">
+                      </line>
+                      <ng-container *ngSwitchCase="'CIRCLE'">
+                        <circle [attr.cx]="mobile.diagramX" [attr.cy]="mobile.diagramY" [attr.fill]="mobile.color"
+                        [attr.stroke]="mobile.isSelected ? 'black' : 'none'"
+                          [attr.stroke-width]="mobile.isSelected ? '1.5' : '0'"
+                          r="5"></circle>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'TRIANGLE'">
+                        <polygon [attr.points]="mobile.trianglePoints" [attr.fill]="mobile.color"
+                        [attr.stroke]="mobile.isSelected ? 'black' : 'none'"
+                          [attr.stroke-width]="mobile.isSelected ? '1.5' : '0'"></polygon>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'SQUARE'">
+                        <rect [attr.x]="mobile.topLeftPointXCoordinate" [attr.y]="mobile.topLeftPointYCoordinate"
+                          [attr.fill]="mobile.color" [attr.width]="squareSideSize" [attr.height]="squareSideSize"
+                          [attr.stroke]="mobile.isSelected ? 'black' : 'none'"
+                            [attr.stroke-width]="mobile.isSelected ? '1.5' : '0'">
+                        </rect>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'DIAMOND'">
+                        <polygon [attr.points]="mobile.diamondPoints" [attr.fill]="mobile.color"
+                        [attr.stroke]="mobile.isSelected ? 'black' : 'none'"
+                          [attr.stroke-width]="mobile.isSelected ? '1.5' : '0'"></polygon>
+                      </ng-container>
+                      <line [attr.x1]="mobile.diagramX" [attr.y1]="mobile.diagramY"
+                        [attr.x2]="mobile.arrowSecondXCoordinate" [attr.y2]="mobile.arrowSecondYCoordinate"
+                        [style]="'stroke:' + mobile.color + '; marker-end: url(#arrow' + mobile.id + ');'">
+                      </line>
+                    </g>
+                    <defs>
+                      <marker [id]="'arrow' + mobile.id" markerWidth="10" markerHeight="10" refX="3" refY="3"
+                        orient="auto" markerUnits="strokeWidth">
+                        <polygon points="0,0 0,6 6,3" [attr.fill]="mobile.color" />
+                      </marker>
+                    </defs>
+                  </ng-container>
+                </svg>
+              </div>
+              <div>
+                <app-chart #myChart [fullScreen]="fullScreen"></app-chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" [class]="fullScreen ? '' : 'd-none'">
+        <div>
+          <span class="text-dark">Formes:&nbsp;</span>
+          <label class="px-1" [ngClass]="options.showCircle ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showCircle">
+            <span>&nbsp;Cercle</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showSquare ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showSquare">
+            <span>&nbsp;Carré</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showDiamond ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showDiamond">
+            <span>&nbsp;Losange</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showTriangle ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showTriangle">
+            <span>&nbsp;Triangle</span>
+          </label>
+        </div>
+        <div>
+          <span class="text-dark">Couleurs:&nbsp;</span>
+          <label class="px-1" [ngClass]="options.showBlue ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showBlue">
+            <span>&nbsp;Bleu</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showViolet ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showViolet">
+            <span>&nbsp;Violet</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showRed ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showRed">
+            <span>&nbsp;Rouge</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showOrange ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showOrange">
+            <span>&nbsp;Orange</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showYellow ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showYellow">
+            <span>&nbsp;Jaune</span>
+          </label>
+          <label class="px-1" [ngClass]="options.showGreen ? 'fw-bold' : ''">
+            <input type="checkbox" [(ngModel)]="options.showGreen">
+            <span>&nbsp;Vert</span>
+          </label>
+        </div>
+      </div>
+
+      <div [ngClass]="fullScreen ? 'modal-footer' : ''">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

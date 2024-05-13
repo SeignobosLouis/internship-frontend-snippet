@@ -1,0 +1,147 @@
+<div class="container-fluid">
+    <ng-container *ngIf="selectedMobile && mobileLocalCopy && selectedMobile.isDisplayed; else defaultTemplate">
+        <div class="row position-relative">
+            <div class="col-12">
+                <h5 class="text-center ">Détail mobile</h5>
+            </div>
+            <div id="mobileId" class="position-absolute ">
+                <h5 class="text-dark float-end">{{mobileLocalCopy.displayId}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-auto">
+                <h6>Information générale</h6>
+                <div class="input-group">
+                    <span>Environnement:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="environment"
+                        [(ngModel)]="mobileLocalCopy.environment">
+                        <option [ngValue]="'AIR'">air</option>
+                        <option [ngValue]="'LAND'">land</option>
+                        <option [ngValue]="'UNDERGROUND'">underground</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span>Forme:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="shape" [(ngModel)]="mobileLocalCopy!.shape">
+                        <option [ngValue]="'CIRCLE'">circle</option>
+                        <option [ngValue]="'SQUARE'">square</option>
+                        <option [ngValue]="'DIAMOND'">diamond</option>
+                        <option [ngValue]="'TRIANGLE'">triangle</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span>Couleur:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="shape" [(ngModel)]="mobileLocalCopy!.color">
+                        <option [ngValue]="'BLUE'">blue</option>
+                        <option [ngValue]="'VIOLET'">violet</option>
+                        <option [ngValue]="'RED'">red</option>
+                        <option [ngValue]="'ORANGE'">orange</option>
+                        <option [ngValue]="'YELLOW'">yellow</option>
+                        <option [ngValue]="'GREEN'">green</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3" *ngIf="selectedMobile">
+            <h6>Kinematics</h6>
+            <div class="col">
+                <div>
+                    <span>Position X:&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.fixedTwoX}}</span>
+                </div>
+                <div>
+                    <span>Position Y:&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.fixedTwoY}}</span>
+                </div>
+                <div>
+                    <span>Position Z:&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.kinematics.zM}}</span>
+                </div>
+                <div>
+                    <span>Vitesse (m/s):&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.speedMSfixedTwo}}</span>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <span>Heading (deg):&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.headingDeg}}</span>
+                </div>
+                <div>
+                    <span>Orientation (deg):&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.orientationDeg}}</span>
+                </div>
+                <div>
+                    <span>Vitesse de rotation (deg/s):&nbsp;</span>
+                    <span class="text-dark fw-bold">{{selectedMobile.spinningSpeedRedS}}</span>
+                </div>
+            </div>
+
+
+        </div>
+    </ng-container>
+    <ng-template #defaultTemplate>
+        <div class="col">
+            <h5 class="text-center">Détail mobile</h5>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <h6>Information générale</h6>
+                <div class="input-group">
+                    <span>Environnement:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="environment" disabled></select>
+                </div>
+                <div class="input-group">
+                    <span>Forme:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="shape" disabled></select>
+                </div>
+                <div class="input-group">
+                    <span>Couleur:&nbsp;</span>
+                    <select class="py-1 px-2 border fw-bold w-100" name="color" disabled></select>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-3">
+            <h6>Kinematics</h6>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        <span>Position X:&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                    <div>
+                        <span>Position Y:&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                    <div>
+                        <span>Position Z:&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                    <div>
+                        <span>Vitesse (m/s):&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <span>Heading (deg):&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                    <div>
+                        <span>Orientation (deg):&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                    <div>
+                        <span>Vitesse de rotation (deg/s):&nbsp;</span>
+                        <span class="text-dark fw-bold"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div class="col h-auto pt-5 d-flex align-items-end justify-content-end text-end align-bottom">
+        <input type="button" class="btn btn-primary" [ngClass]="selectedMobile && mobileLocalCopy ? '' : 'disabled'"
+            (click)="updateLocalSelectedMobile()" value="Mettre à jour &#x2714;">
+    </div>
+</div>
