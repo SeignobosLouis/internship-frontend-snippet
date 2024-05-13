@@ -1,0 +1,23 @@
+.disabled-outline:focus {
+    box-shadow: inset 0px 0px 0px 1px rgba(3, 65, 158, 0.25) !important
+}
+
+.bg-repartition-1 {
+    background-color: rgb(0, 50, 99);
+}
+
+.bg-repartition-2 {
+    background-color: rgb(1, 160, 210);
+}
+.bg-repartition-3 {
+    background-color: rgb(120, 200, 245);
+}
+.bg-repartition-4 {
+    background-color: rgb(245, 245, 245)
+}
+
+@media screen and (max-width: 1700px) {
+    .repartition-mobiles {
+        width: 100%;
+    }
+}

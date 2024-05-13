@@ -1,0 +1,17 @@
+canvas {
+    transition: transform 0.5s;
+}
+
+.modal .row {
+    font-size: .85rem;
+}
+
+#svgContainer {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#svgContainer g {
+    cursor: pointer;
+}

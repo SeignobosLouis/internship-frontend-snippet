@@ -1,0 +1,76 @@
+
+.wrapper {
+    height: 60vh;
+}
+
+.table-component {
+    overflow: auto;
+    scrollbar-color: var(--corporate-color-blue) var(--corporate-color-light-grey);
+    scrollbar-width: thin;
+}
+
+.table-component::-webkit-scrollbar {
+    width: 60px;
+}
+
+button svg {
+    fill: var(--corporate-color-white);
+    width: 20px;
+}
+
+.modal {
+    scrollbar-color: var(--corporate-color-blue) #ebebeb;
+    scrollbar-width: thin;
+}
+
+.table-component::-webkit-scrollbar-track {
+    background: var(--corporate-color-light-grey);
+}
+
+.table-component::-webkit-scrollbar-thumb {
+    background-color: var(--corporate-color-blue);
+    border-radius: 2px;
+}
+
+.mat-column-id {
+    box-shadow: inset -1px 0px 0px var(--corporate-color-grey);
+}
+
+.table-header {
+    background-color: var(--corporate-color-light-grey);
+}
+
+.row-selected {
+    background-color: #f4433614;
+    border: 2px red solid;
+}
+
+::ng-deep .mat-sort-header-content, ::ng-deep .mat-mdc-header-cell, ::ng-deep .mat-mdc-row, ::ng-deep .mat-mdc-cell  {
+    font-family: 'B612-Regular';
+}
+
+.mat-column-kinematics-headingRad,
+.mat-column-kinematics-xM, .mat-column-kinematics-yM,
+.mat-column-kinematics-orientationRad,
+.mat-column-extraMobileData1-data1,
+.mat-column-extraMobileData2-data1
+{
+    min-width: 195px;
+}
+
+.mat-column-extraMobileData1-data3,
+.mat-column-extraMobileData2-data3,
+.mat-column-extraMobileData1-data6,
+.mat-column-extraMobileData2-data6 {
+    min-width: 230px;
+
+}
+
+.mat-column-extraMobileData1-data2,
+.mat-column-extraMobileData1-data5,
+.mat-column-extraMobileData2-data2,
+.mat-column-extraMobileData2-data5,
+.mat-column-extraMobileData1-data8,
+.mat-column-extraMobileData2-data8 {
+    min-width: 100px;
+}

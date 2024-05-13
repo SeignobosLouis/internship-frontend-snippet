@@ -1,0 +1,24 @@
+<div *ngIf="fullScreen">
+    <div class="modal-backdrop fade show"></div>
+</div>
+
+<div class="container-fluid" [ngClass]="fullScreen ? 'modal modal-lg d-block' : ''">
+    <div [ngClass]="fullScreen ? 'modal-dialog modal-dialog-centered' : ''">
+        <div [ngClass]="fullScreen ? 'modal-content' : ''">
+            <div [ngClass]="fullScreen ? 'modal-header' : ''">
+                <h5 class="text-center" [ngClass]="fullScreen ? 'modal-title fs-5' : ''">Diagramme de densité</h5>
+                <span *ngIf="fullScreen" tabindex="0" type="button" class="btn-close" (click)="fullScreen = !fullScreen;myChart.toggleFullScreen()" (keyup)="fullScreen = !fullScreen;myChart.toggleFullScreen()"></span>
+            </div>
+            <div [ngClass]="fullScreen ? 'modal-body overflow-hidden' : 'row'">
+                <div>
+                    <app-chart #myChart
+                        [fullScreen]="fullScreen"
+                    ></app-chart>
+                </div>
+            </div>
+            <div [ngClass]="fullScreen ? 'modal-footer' : ''">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

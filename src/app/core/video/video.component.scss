@@ -1,0 +1,16 @@
+video {
+    transition: transform 0.5s;
+}
+
+.video-container {
+    overflow: hidden;
+}
+
+.zoom > svg {
+    fill: var(--corporate-color-white);
+    width: 20px;
+}
+
+.btn {
+    border-radius: inherit;
+}

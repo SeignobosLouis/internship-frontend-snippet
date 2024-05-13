@@ -1,0 +1,40 @@
+.undefined {
+    height: 200px;
+}
+
+.btn.btn-primary {
+    background-color: var(--corporate-color-blue);
+    border-color: var(--corporate-color-blue);
+}
+
+.btn {
+    border-radius: 3%;
+}
+
+.bg-primary {
+    background-color: var(--corporate-color-blue) !important;
+}
+
+.btn.btn-primary:hover {
+    background-color: var(--corporate-color-medium-blue);
+    border-color: var(--corporate-color-medium-blue);
+}
+
+.btn.btn-primary:active {
+    background-color: var(--corporate-color-medium-blue);
+    border-color: var(--corporate-color-medium-blue);
+}
+
+.btn.btn-primary:focus, .btn.btn-primary:active {
+    background-color: var(--corporate-color-medium-blue);
+    border-color: var(--corporate-color-medium-blue);
+}
+
+#main .form-control:focus {
+    background-color: var(--bs-body-bg);
+    outline: 0;
+    border-color: var(--corporate-color-blue);
+    box-shadow: 0 0 0 0.25rem rgba(3, 65, 158, 0.25)
+}
+
+

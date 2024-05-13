@@ -1,0 +1,15 @@
+svg {
+    width: 24px;
+}
+
+input {
+    width: 90px;
+}
+
+svg.zoom {
+    background-color: #d9d9d9;
+}
+
+input::selection {
+    outline: none;
+}
